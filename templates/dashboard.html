@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<h1>Dashboard <small> Welcome {{session.username}}</small></h1>
+	<a href="/add_article" class="btn btn-primary">Add Article</a>
+	<hr>
+
+	<!-- Display Articles -->
+	<div class="table-responsive">
+	    <table class="table table-hover table-striped" >
+		    <tr>
+		    	<th>#</th>
+		    	<th>Title</th>
+		    	<th>Author</th>
+		    	<th>Date</th>
+		    	<th></th>
+		    	<th></th>
+
+		    </tr>
+		    {% if articles %}
+		    	{% for article in articles %}
+		    		<tr>
+		    			<td>
+		    				{{article['id']}}
+		    			</td>
+		    			<td>
+		    				{{article['title']}}
+		    			</td>
+		    			<td>
+		    				{{article['author']}}
+		    			</td>
+		    			<td>
+		    				{{article['create_date']}}
+		    			</td>
+		    			<td><a href="edit_article/{{article.id}}" class="btn btn-primary pull-right">Edit</a></td>
+		    			<td>
+		    				<form action="{{url_for('delete_article', id = article.id)}}" method="POST">
+			               		<input type="hidden"  name="_method">
+			                	<input type="submit" value="Delete" class="btn btn-danger">
+            				</form>
+		    			</td>
+		    		</tr>
+		    	{% endfor %}
+		    {% endif %}
+
+	    </table>
+    </div>
+
+{% endblock %}
